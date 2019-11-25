@@ -1,10 +1,8 @@
 package com.example.tmdbpeople.datasource.searchdatasource
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import com.example.tmdbpeople.datasource.PersonDataSource
 import com.example.tmdbpeople.models.PersonModel
 import com.example.tmdbpeople.networkutils.LoadCallback
 

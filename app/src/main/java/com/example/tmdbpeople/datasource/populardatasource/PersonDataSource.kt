@@ -1,4 +1,4 @@
-package com.example.tmdbpeople.datasource
+package com.example.tmdbpeople.datasource.populardatasource
 
 import androidx.paging.PageKeyedDataSource
 import com.example.tmdbpeople.models.PersonModel

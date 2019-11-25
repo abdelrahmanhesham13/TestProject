@@ -1,9 +1,9 @@
-package com.example.tmdbpeople.datasource
+package com.example.tmdbpeople.datasource.populardatasource
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
+import com.example.tmdbpeople.datasource.populardatasource.PersonDataSource
 import com.example.tmdbpeople.models.PersonModel
 import com.example.tmdbpeople.networkutils.LoadCallback
 
@@ -14,7 +14,10 @@ class PersonDataSourceFactory(private val loadCallback: LoadCallback, private va
         MutableLiveData<PageKeyedDataSource<Int?, PersonModel?>>()
 
     override fun create(): DataSource<Int?, PersonModel?> {
-        personDataSource = PersonDataSource(loadCallback)
+        personDataSource =
+            PersonDataSource(
+                loadCallback
+            )
         itemLiveDataSource.postValue(personDataSource)
         return personDataSource as PersonDataSource
     }

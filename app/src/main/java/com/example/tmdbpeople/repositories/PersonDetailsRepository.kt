@@ -2,6 +2,7 @@ package com.example.tmdbpeople.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.models.responsemodels.PopularPersonResponse
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.PersonsService
@@ -10,18 +11,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PopularPersonsRepository private constructor() {
+class PersonDetailsRepository private constructor() {
     private val mPersonsService: PersonsService = service
-    val popularPersons = MutableLiveData<PopularPersonResponse?>()
-
-    fun getPopularPersons(page: Int): LiveData<PopularPersonResponse?> {
-        mPersonsService.listPopularPersons(
-            Constants.API_KEY_VALUE,
-            page
-        ).enqueue(object : Callback<PopularPersonResponse?> {
+    
+    fun getPersonDetails(personId: Int): LiveData<PersonDetailsResponse?> {
+        val popularPersons = MutableLiveData<PersonDetailsResponse?>()
+        mPersonsService.personDetails(
+            personId,
+            Constants.API_KEY_VALUE
+        ).enqueue(object : Callback<PersonDetailsResponse?> {
             override fun onResponse(
-                call: Call<PopularPersonResponse?>,
-                response: Response<PopularPersonResponse?>
+                call: Call<PersonDetailsResponse?>,
+                response: Response<PersonDetailsResponse?>
             ) {
                 if (response.isSuccessful) {
                     popularPersons.setValue(response.body())
@@ -31,7 +32,7 @@ class PopularPersonsRepository private constructor() {
             }
 
             override fun onFailure(
-                call: Call<PopularPersonResponse?>,
+                call: Call<PersonDetailsResponse?>,
                 t: Throwable
             ) {
                 t.printStackTrace()
@@ -42,12 +43,12 @@ class PopularPersonsRepository private constructor() {
     }
 
     companion object {
-        private var mPopularPersonsRepository: PopularPersonsRepository? = null
-        val instance: PopularPersonsRepository?
+        private var mPopularPersonsRepository: PersonDetailsRepository? = null
+        val instance: PersonDetailsRepository?
             get() {
                 if (mPopularPersonsRepository == null) {
                     mPopularPersonsRepository =
-                        PopularPersonsRepository()
+                        PersonDetailsRepository()
                 }
                 return mPopularPersonsRepository
             }
