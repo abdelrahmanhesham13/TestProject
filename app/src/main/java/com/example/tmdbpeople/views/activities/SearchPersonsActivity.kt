@@ -13,6 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbpeople.R
+import com.example.tmdbpeople.dagger.component.DaggerPersonAdapterComponent
+import com.example.tmdbpeople.dagger.component.PersonAdapterComponent
+import com.example.tmdbpeople.dagger.modules.ContextModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickModule
 import com.example.tmdbpeople.databinding.ActivitySearchBinding
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.LoadCallback
@@ -20,6 +24,7 @@ import com.example.tmdbpeople.viewmodels.SearchPersonsViewModel
 import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.adapters.PersonAdapter
 import kotlinx.android.synthetic.main.activity_popular_persons.*
+import javax.inject.Inject
 
 class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnItemClicked {
 
@@ -44,7 +49,12 @@ class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnIt
 
     private fun setupViews() {
         title = getString(R.string.search_for_person)
-        mPersonsAdapter = PersonAdapter(this,this)
+        val personAdapterComponent : PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
+            .contextModule(ContextModule(this))
+            .onItemClickModule(OnItemClickModule(this))
+            .build()
+
+        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
         mActivityBinding?.searchResultsRecycler?.layoutManager = LinearLayoutManager(this)
         mActivityBinding?.searchResultsRecycler?.setHasFixedSize(true)
         mActivityBinding?.searchResultsRecycler?.adapter = mPersonsAdapter

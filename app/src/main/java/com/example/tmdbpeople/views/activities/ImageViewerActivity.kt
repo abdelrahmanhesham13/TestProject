@@ -51,6 +51,7 @@ class ImageViewerActivity : RootActivity() {
         return false
     }
 
+    //Check permission before download image if not granted request it at runtime
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
@@ -62,6 +63,7 @@ class ImageViewerActivity : RootActivity() {
         }
     }
 
+    //after permission has been granted download image and save it to phone
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {

@@ -58,6 +58,8 @@ class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicke
         title = getString(R.string.person_details)
         mPersonDetailsAdapter = PersonDetailsAdapter(this, ArrayList(),PersonDetailsResponse(),this)
         val gridLayout = GridLayoutManager(this, 2)
+
+        //Give the PersonDetails View full width of first row (span 2) else the image will take half of screen width as usual
         gridLayout.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (mPersonDetailsAdapter.getItemViewType(position)) {
@@ -67,6 +69,8 @@ class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicke
                 }
             }
         }
+
+
         mActivityBinding?.detailsRecycler?.layoutManager = gridLayout
         mActivityBinding?.detailsRecycler?.addItemDecoration(SpacesItemDecoration(5))
         mActivityBinding?.detailsRecycler?.adapter = mPersonDetailsAdapter

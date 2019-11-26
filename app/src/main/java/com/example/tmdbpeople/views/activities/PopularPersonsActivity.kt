@@ -1,30 +1,37 @@
 package com.example.tmdbpeople.views.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdbpeople.R
+import com.example.tmdbpeople.dagger.component.DaggerPersonAdapterComponent
+import com.example.tmdbpeople.dagger.component.PersonAdapterComponent
+import com.example.tmdbpeople.dagger.modules.ContextModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickModule
 import com.example.tmdbpeople.databinding.ActivityPopularPersonsBinding
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.LoadCallback
 import com.example.tmdbpeople.viewmodels.PopularPersonsViewModel
 import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.adapters.PersonAdapter
+import dagger.internal.DaggerCollections
 import kotlinx.android.synthetic.main.activity_popular_persons.*
+import javax.inject.Inject
+
 
 class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapter.OnItemClicked {
 
     private var mPopularPersonsViewModel: PopularPersonsViewModel? = null
     private var mActivityBinding: ActivityPopularPersonsBinding? = null
-    var mPersonsAdapter: PersonAdapter? = null
+    lateinit var mPersonsAdapter: PersonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +45,15 @@ class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapte
 
     private fun setupViews() {
         title = getString(R.string.popular_people)
-        mPersonsAdapter = PersonAdapter(this,this)
+
+        val personAdapterComponent : PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
+            .contextModule(ContextModule(this))
+            .onItemClickModule(OnItemClickModule(this))
+            .build()
+
+        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
+
+
         mActivityBinding?.personsRecycler?.layoutManager = LinearLayoutManager(this)
         mActivityBinding?.personsRecycler?.setHasFixedSize(true)
         mActivityBinding?.personsRecycler?.adapter = mPersonsAdapter
@@ -46,7 +61,7 @@ class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapte
 
     private fun observeData() {
         mPopularPersonsViewModel?.personPagedList?.observe(this, Observer {
-            mPersonsAdapter?.submitList(it)
+            mPersonsAdapter.submitList(it)
         })
     }
 

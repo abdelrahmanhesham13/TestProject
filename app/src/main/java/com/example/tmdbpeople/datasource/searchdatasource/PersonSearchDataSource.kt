@@ -13,6 +13,7 @@ class PersonSearchDataSource(
     private val loadCallback: com.example.tmdbpeople.networkutils.LoadCallback,
     private val query: String?
 ) : PageKeyedDataSource<Int?, PersonDetailsResponse?>() {
+    //Function Loads the data for first time (page number 1)
     override fun loadInitial(
         params: LoadInitialParams<Int?>,
         callback: LoadInitialCallback<Int?, PersonDetailsResponse?>
@@ -51,6 +52,7 @@ class PersonSearchDataSource(
         }
     }
 
+    //Function to load previous data before current page number
     override fun loadBefore(
         params: LoadParams<Int?>,
         callback: LoadCallback<Int?, PersonDetailsResponse?>
@@ -84,6 +86,8 @@ class PersonSearchDataSource(
         }
     }
 
+    //Function to load more data when user scroll to bottom and check the page number to be lower than total pages
+    //to increase it
     override fun loadAfter(
         params: LoadParams<Int?>,
         callback: LoadCallback<Int?, PersonDetailsResponse?>

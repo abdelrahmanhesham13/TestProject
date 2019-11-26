@@ -9,9 +9,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+//DataSource class for popular persons pagination
 class PersonDataSource(private val loadCallback: com.example.tmdbpeople.networkutils.LoadCallback) :
     PageKeyedDataSource<Int?, PersonDetailsResponse?>() {
 
+    //Function Loads the data for first time (page number 1)
     override fun loadInitial(
         params: LoadInitialParams<Int?>,
         callback: LoadInitialCallback<Int?, PersonDetailsResponse?>
@@ -44,6 +46,7 @@ class PersonDataSource(private val loadCallback: com.example.tmdbpeople.networku
             })
     }
 
+    //Function to load previous data before current page number
     override fun loadBefore(params: LoadParams<Int?>, callback: LoadCallback<Int?, PersonDetailsResponse?>) {
         service.listPopularPersons(
             Constants.API_KEY_VALUE,
@@ -69,6 +72,8 @@ class PersonDataSource(private val loadCallback: com.example.tmdbpeople.networku
             })
     }
 
+    //function to load more data when user scroll to bottom and check the page number to be lower than total pages
+    //to increase it
     override fun loadAfter(params: LoadParams<Int?>, callback: LoadCallback<Int?, PersonDetailsResponse?>) {
         loadCallback.onLoadMore()
         service.listPopularPersons(

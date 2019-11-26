@@ -6,6 +6,7 @@ import androidx.paging.PageKeyedDataSource
 import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.networkutils.LoadCallback
 
+//DataSource Factory used to create Person DataSource object and post it to LiveData
 class PersonDataSourceFactory(private val loadCallback: LoadCallback, private val query : String?) :
     DataSource.Factory<Int?, PersonDetailsResponse?>() {
     var personDataSource : PersonDataSource? = null
@@ -21,7 +22,7 @@ class PersonDataSourceFactory(private val loadCallback: LoadCallback, private va
         return personDataSource as PersonDataSource
     }
 
-
+    //Function to refresh data
     fun invalidate() {
         personDataSource?.invalidate()
     }

@@ -10,6 +10,7 @@ import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.LoadCallback
 
+//PopularPersonsViewModel create DataSource Factory for Person List Pagination and create LiveData object to observe on it
 class PopularPersonsViewModel(private var loadCallback: LoadCallback) : ViewModel() {
     internal var personDataSourceFactory : PersonDataSourceFactory
     val personPagedList: LiveData<PagedList<PersonDetailsResponse?>>

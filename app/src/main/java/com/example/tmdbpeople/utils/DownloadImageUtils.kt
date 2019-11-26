@@ -17,6 +17,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
+//Helper class to download image from url and save it on device storage using Picasso third-party library
 object DownloadImageUtils {
     fun imageDownload(url: String? , ctx : Context) {
         Picasso.get()
@@ -24,6 +25,7 @@ object DownloadImageUtils {
             .into(getTarget(url,ctx))
     }
 
+    //Function to create file and compress bitmap after download image
     private fun getTarget(url: String?,ctx: Context): Target {
         return object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {

@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso
 class PersonDetailsAdapter(private val context: Context,private var personImages : ArrayList<PersonImage>,
                            private var personDetailsResponse: PersonDetailsResponse?,
     private val onItemClicked: OnItemClicked) : RecyclerView.Adapter<ViewHolder>() {
+
+    //Add dummy person to arrayList to put details view in the zero position in recycler
     fun setPersonDetailsResponse(personDetailsResponse: PersonDetailsResponse?) {
         this.personDetailsResponse = personDetailsResponse
         if (personImages.size > 0) {
@@ -96,6 +98,7 @@ class PersonDetailsAdapter(private val context: Context,private var personImages
 
     inner class PersonImageViewHolder(var binding: PersonImageItemBinding) : ViewHolder(binding.root) ,View.OnClickListener{
         init {
+            //Width of every image in grid to be half of screen withd
             val metrics = context.resources.displayMetrics
             val width = metrics.widthPixels
             binding.root.layoutParams.width = (width / 2) - 10

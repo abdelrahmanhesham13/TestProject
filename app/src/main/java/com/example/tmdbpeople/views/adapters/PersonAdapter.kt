@@ -14,9 +14,20 @@ import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.views.adapters.PersonAdapter.PersonViewHolder
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
-class PersonAdapter(private val mCtx: Context , private val onItemClicked : OnItemClicked) :
+
+class PersonAdapter() :
     PagedListAdapter<PersonDetailsResponse, PersonViewHolder>(DIFF_CALLBACK) {
+
+    private lateinit var mCtx : Context
+    lateinit var onItemClicked : OnItemClicked
+
+    @Inject
+    constructor (mCtx: Context, onItemClicked : OnItemClicked) : this() {
+        this.mCtx = mCtx
+        this.onItemClicked = onItemClicked
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val view = DataBindingUtil.inflate<PersonItemBinding>(
