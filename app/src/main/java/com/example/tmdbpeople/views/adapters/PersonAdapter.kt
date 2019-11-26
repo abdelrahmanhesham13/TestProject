@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.tmdbpeople.R
 import com.example.tmdbpeople.databinding.PersonItemBinding
-import com.example.tmdbpeople.models.PersonModel
+import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.views.adapters.PersonAdapter.PersonViewHolder
 import com.squareup.picasso.Picasso
 
 class PersonAdapter(private val mCtx: Context , private val onItemClicked : OnItemClicked) :
-    PagedListAdapter<PersonModel, PersonViewHolder>(DIFF_CALLBACK) {
+    PagedListAdapter<PersonDetailsResponse, PersonViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         val view = DataBindingUtil.inflate<PersonItemBinding>(
@@ -52,18 +52,18 @@ class PersonAdapter(private val mCtx: Context , private val onItemClicked : OnIt
     }
 
     companion object {
-        private val DIFF_CALLBACK: DiffUtil.ItemCallback<PersonModel> =
-            object : DiffUtil.ItemCallback<PersonModel>() {
+        private val DIFF_CALLBACK: DiffUtil.ItemCallback<PersonDetailsResponse> =
+            object : DiffUtil.ItemCallback<PersonDetailsResponse>() {
                 override fun areItemsTheSame(
-                    oldItem: PersonModel,
-                    newItem: PersonModel
+                    oldItem: PersonDetailsResponse,
+                    newItem: PersonDetailsResponse
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: PersonModel,
-                    newItem: PersonModel
+                    oldItem: PersonDetailsResponse,
+                    newItem: PersonDetailsResponse
                 ): Boolean {
                     return oldItem == newItem
                 }

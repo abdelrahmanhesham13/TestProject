@@ -55,7 +55,7 @@ class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicke
     }
 
     private fun setupViews() {
-        title = "Person Details"
+        title = getString(R.string.person_details)
         mPersonDetailsAdapter = PersonDetailsAdapter(this, ArrayList(),PersonDetailsResponse(),this)
         val gridLayout = GridLayoutManager(this, 2)
         gridLayout.spanSizeLookup = object : SpanSizeLookup() {

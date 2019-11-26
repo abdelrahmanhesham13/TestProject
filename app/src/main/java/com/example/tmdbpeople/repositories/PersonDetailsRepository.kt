@@ -26,9 +26,9 @@ class PersonDetailsRepository private constructor() {
                 response: Response<PersonDetailsResponse?>
             ) {
                 if (response.isSuccessful) {
-                    personDetails.setValue(response.body())
+                    personDetails.value = response.body()
                 } else {
-                    personDetails.setValue(null)
+                    personDetails.value = null
                 }
             }
 
@@ -54,9 +54,9 @@ class PersonDetailsRepository private constructor() {
                 response: Response<PersonImagesResponse?>
             ) {
                 if (response.isSuccessful) {
-                    personImages.setValue(response.body())
+                    personImages.value = response.body()
                 } else {
-                    personImages.setValue(null)
+                    personImages.value = null
                 }
             }
 

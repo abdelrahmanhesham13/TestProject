@@ -19,7 +19,7 @@ import com.example.tmdbpeople.networkutils.LoadCallback
 import com.example.tmdbpeople.viewmodels.SearchPersonsViewModel
 import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.adapters.PersonAdapter
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_popular_persons.*
 
 class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnItemClicked {
 
@@ -43,7 +43,7 @@ class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnIt
     }
 
     private fun setupViews() {
-        title = "Search for Person"
+        title = getString(R.string.search_for_person)
         mPersonsAdapter = PersonAdapter(this,this)
         mActivityBinding?.searchResultsRecycler?.layoutManager = LinearLayoutManager(this)
         mActivityBinding?.searchResultsRecycler?.setHasFixedSize(true)

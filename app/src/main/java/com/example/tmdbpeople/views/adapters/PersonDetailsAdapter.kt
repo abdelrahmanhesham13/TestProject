@@ -98,7 +98,6 @@ class PersonDetailsAdapter(private val context: Context,private var personImages
         init {
             val metrics = context.resources.displayMetrics
             val width = metrics.widthPixels
-            val height = metrics.heightPixels
             binding.root.layoutParams.width = (width / 2) - 10
             binding.root.setOnClickListener(this)
         }

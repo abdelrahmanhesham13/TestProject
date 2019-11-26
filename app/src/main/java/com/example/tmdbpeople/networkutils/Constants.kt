@@ -1,6 +1,10 @@
 package com.example.tmdbpeople.networkutils
 
 object Constants {
+    const val SERVER_ERROR_MESSAGE = "Server Error"
+    const val PAGE_SIZE = 20
+    const val FIRST_PAGE = 1
+    const val NETWORK_ERROR_MESSAGE = "Network Error"
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val IMAGE_BASE_URL_500W = "https://image.tmdb.org/t/p/w500"
     const val IMAGE_BASE_URL_ORIGINAL = "https://image.tmdb.org/t/p/original"

@@ -3,17 +3,16 @@ package com.example.tmdbpeople.datasource.populardatasource
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
-import com.example.tmdbpeople.datasource.populardatasource.PersonDataSource
-import com.example.tmdbpeople.models.PersonModel
+import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
 import com.example.tmdbpeople.networkutils.LoadCallback
 
 class PersonDataSourceFactory(private val loadCallback: LoadCallback, private val query : String?) :
-    DataSource.Factory<Int?, PersonModel?>() {
+    DataSource.Factory<Int?, PersonDetailsResponse?>() {
     var personDataSource : PersonDataSource? = null
     val itemLiveDataSource =
-        MutableLiveData<PageKeyedDataSource<Int?, PersonModel?>>()
+        MutableLiveData<PageKeyedDataSource<Int?, PersonDetailsResponse?>>()
 
-    override fun create(): DataSource<Int?, PersonModel?> {
+    override fun create(): DataSource<Int?, PersonDetailsResponse?> {
         personDataSource =
             PersonDataSource(
                 loadCallback

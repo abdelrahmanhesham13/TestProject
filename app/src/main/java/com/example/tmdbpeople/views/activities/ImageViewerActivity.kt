@@ -24,7 +24,7 @@ class ImageViewerActivity : RootActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_image_viewer)
-        title = "Person Image"
+        title = getString(R.string.person_image)
         loadImage(intent.getStringExtra(Constants.IMAGE_KEY))
     }
 
