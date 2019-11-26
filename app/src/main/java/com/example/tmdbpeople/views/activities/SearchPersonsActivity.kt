@@ -1,11 +1,9 @@
 package com.example.tmdbpeople.views.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -16,7 +14,7 @@ import com.example.tmdbpeople.R
 import com.example.tmdbpeople.dagger.component.DaggerPersonAdapterComponent
 import com.example.tmdbpeople.dagger.component.PersonAdapterComponent
 import com.example.tmdbpeople.dagger.modules.ContextModule
-import com.example.tmdbpeople.dagger.modules.OnItemClickModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickPersonModule
 import com.example.tmdbpeople.databinding.ActivitySearchBinding
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.LoadCallback
@@ -24,7 +22,6 @@ import com.example.tmdbpeople.viewmodels.SearchPersonsViewModel
 import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.adapters.PersonAdapter
 import kotlinx.android.synthetic.main.activity_popular_persons.*
-import javax.inject.Inject
 
 class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnItemClicked {
 
@@ -49,12 +46,7 @@ class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnIt
 
     private fun setupViews() {
         title = getString(R.string.search_for_person)
-        val personAdapterComponent : PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
-            .contextModule(ContextModule(this))
-            .onItemClickModule(OnItemClickModule(this))
-            .build()
-
-        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
+        injectAdapter()
         mActivityBinding?.searchResultsRecycler?.layoutManager = LinearLayoutManager(this)
         mActivityBinding?.searchResultsRecycler?.setHasFixedSize(true)
         mActivityBinding?.searchResultsRecycler?.adapter = mPersonsAdapter
@@ -75,6 +67,15 @@ class SearchPersonsActivity : RootActivity() , LoadCallback , PersonAdapter.OnIt
             }
 
         })
+    }
+
+    private fun injectAdapter() {
+        val personAdapterComponent: PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
+            .contextModule(ContextModule(this))
+            .onItemClickPersonModule(OnItemClickPersonModule(this))
+            .build()
+
+        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
     }
 
 

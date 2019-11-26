@@ -15,16 +15,14 @@ import com.example.tmdbpeople.R
 import com.example.tmdbpeople.dagger.component.DaggerPersonAdapterComponent
 import com.example.tmdbpeople.dagger.component.PersonAdapterComponent
 import com.example.tmdbpeople.dagger.modules.ContextModule
-import com.example.tmdbpeople.dagger.modules.OnItemClickModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickPersonModule
 import com.example.tmdbpeople.databinding.ActivityPopularPersonsBinding
 import com.example.tmdbpeople.networkutils.Constants
 import com.example.tmdbpeople.networkutils.LoadCallback
 import com.example.tmdbpeople.viewmodels.PopularPersonsViewModel
 import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.adapters.PersonAdapter
-import dagger.internal.DaggerCollections
 import kotlinx.android.synthetic.main.activity_popular_persons.*
-import javax.inject.Inject
 
 
 class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapter.OnItemClicked {
@@ -46,17 +44,21 @@ class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapte
     private fun setupViews() {
         title = getString(R.string.popular_people)
 
-        val personAdapterComponent : PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
-            .contextModule(ContextModule(this))
-            .onItemClickModule(OnItemClickModule(this))
-            .build()
-
-        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
+        injectAdapter()
 
 
         mActivityBinding?.personsRecycler?.layoutManager = LinearLayoutManager(this)
         mActivityBinding?.personsRecycler?.setHasFixedSize(true)
         mActivityBinding?.personsRecycler?.adapter = mPersonsAdapter
+    }
+
+    private fun injectAdapter() {
+        val personAdapterComponent: PersonAdapterComponent = DaggerPersonAdapterComponent.builder()
+            .contextModule(ContextModule(this))
+            .onItemClickPersonModule(OnItemClickPersonModule(this))
+            .build()
+
+        mPersonsAdapter = personAdapterComponent.getPersonAdapter()
     }
 
     private fun observeData() {

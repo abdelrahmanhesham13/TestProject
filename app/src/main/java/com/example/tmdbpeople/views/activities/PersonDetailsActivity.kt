@@ -11,6 +11,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.example.tmdbpeople.R
+import com.example.tmdbpeople.dagger.component.DaggerPersonAdapterComponent
+import com.example.tmdbpeople.dagger.component.DaggerPersonDetailsAdapterComponent
+import com.example.tmdbpeople.dagger.component.PersonAdapterComponent
+import com.example.tmdbpeople.dagger.component.PersonDetailsAdapterComponent
+import com.example.tmdbpeople.dagger.modules.ContextModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickPersonModule
+import com.example.tmdbpeople.dagger.modules.OnItemClickedImageModule
 import com.example.tmdbpeople.databinding.ActivityPersonDetailsBinding
 import com.example.tmdbpeople.models.PersonImage
 import com.example.tmdbpeople.models.responsemodels.PersonDetailsResponse
@@ -20,11 +27,12 @@ import com.example.tmdbpeople.viewmodels.viewmodelfactory.CustomViewModelFactory
 import com.example.tmdbpeople.views.SpacesItemDecoration
 import com.example.tmdbpeople.views.adapters.PersonAdapter
 import com.example.tmdbpeople.views.adapters.PersonDetailsAdapter
+import javax.inject.Inject
 
 
 class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicked {
 
-    private lateinit var mPersonDetailsAdapter: PersonDetailsAdapter
+    @Inject public lateinit var mPersonDetailsAdapter: PersonDetailsAdapter
     private var mActivityBinding : ActivityPersonDetailsBinding? = null
     private var mPersonDetailsViewModel : PersonDetailsViewModel? = null
 
@@ -56,7 +64,9 @@ class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicke
 
     private fun setupViews() {
         title = getString(R.string.person_details)
-        mPersonDetailsAdapter = PersonDetailsAdapter(this, ArrayList(),PersonDetailsResponse(),this)
+
+        injectAdapter()
+
         val gridLayout = GridLayoutManager(this, 2)
 
         //Give the PersonDetails View full width of first row (span 2) else the image will take half of screen width as usual
@@ -74,6 +84,16 @@ class PersonDetailsActivity : RootActivity() , PersonDetailsAdapter.OnItemClicke
         mActivityBinding?.detailsRecycler?.layoutManager = gridLayout
         mActivityBinding?.detailsRecycler?.addItemDecoration(SpacesItemDecoration(5))
         mActivityBinding?.detailsRecycler?.adapter = mPersonDetailsAdapter
+    }
+
+    private fun injectAdapter() {
+        val personDetailsAdapterComponent: PersonDetailsAdapterComponent =
+            DaggerPersonDetailsAdapterComponent.builder()
+                .contextModule(ContextModule(this))
+                .onItemClickedImageModule(OnItemClickedImageModule(this))
+                .build()
+
+        personDetailsAdapterComponent.inject(this)
     }
 
 

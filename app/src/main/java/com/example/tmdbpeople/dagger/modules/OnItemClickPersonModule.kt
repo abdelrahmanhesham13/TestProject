@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class OnItemClickModule(var onItemClicked: PersonAdapter.OnItemClicked) {
+class OnItemClickPersonModule(var onItemClicked: PersonAdapter.OnItemClicked) {
 
     @Provides
     fun provideOnItemClicked(): PersonAdapter.OnItemClicked {
