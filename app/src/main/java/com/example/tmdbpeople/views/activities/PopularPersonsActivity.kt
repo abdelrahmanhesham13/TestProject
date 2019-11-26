@@ -78,6 +78,7 @@ class PopularPersonsActivity : AppCompatActivity() , LoadCallback , PersonAdapte
                 SearchPersonsActivity::class.java))
             return true
         } else if (item.itemId == R.id.refresh) {
+            mActivityBinding?.centerProgressBar?.visibility = View.VISIBLE
             mPopularPersonsViewModel?.invalidate()
             return true
         }
